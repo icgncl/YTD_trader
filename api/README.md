@@ -22,7 +22,7 @@ In order to run API in local env:
 uvicorn app:client --reload
 ```
 
-> API can be used with POST requests. http://127.0.0.1:8000/get_stock_prices/
+> API can be used with GET requests. http://127.0.0.1:8000/stock/price/
 
 > Example body for requests:
 ```json
@@ -30,8 +30,13 @@ uvicorn app:client --reload
     "stock": "META",
     "start_date": "2022-10-26",
     "end_date": "2022-10-27",
-    "is_hourly": true
+    "interval": "1m"
 }
 ```
-If is_hourly is true, it returns hourly price list.
-If is_hourly is false, it returns daily price list.
+For interval, following ones can be used:
+* minute = '1m'
+* half_hour = '30m'
+* hour = '1h'
+* day = '1d'
+* week = '1wk'
+* month = '1mo'

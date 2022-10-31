@@ -6,7 +6,7 @@ from datetime import date
 
 client = FastAPI()
 
-@client.post("/get_daily_data/")
+@client.get("/stock/price/")
 def get_stock_prices(data: InputData):
     if data.start_date > data.end_date:
         raise HTTPException(
@@ -18,10 +18,7 @@ def get_stock_prices(data: InputData):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="End date must be before today",
         )
-    if data.is_hourly:
-        interval = "1h"
-    else:
-        interval = "1d"
+
     stock = yf.Ticker(data.stock)
-    hist = stock.history(start=data.start_date, end=data.end_date, interval=interval).reset_index().to_dict(orient="records")
+    hist = stock.history(start=data.start_date, end=data.end_date, interval=data.interval).reset_index().to_dict(orient="records")
     return hist
